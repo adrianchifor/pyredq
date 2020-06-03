@@ -1,5 +1,5 @@
 # pyredq
-Light and fast ordered message queue for Python3, leveraging Redis lists.
+Light and fast ordered message queue for Python3, leveraging Redis lists. Uses [MessagePack](https://msgpack.org/) for efficient message serialization.
 
 ## Install
 ```

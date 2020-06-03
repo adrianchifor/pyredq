@@ -1,10 +1,12 @@
-import redis
 import threading
+
+from redis import Redis
+from msgpack import packb, unpackb
 
 
 class RedisQueue(object):
     def __init__(self, **redis_args):
-        self.redis = redis.Redis(**redis_args, decode_responses=True)
+        self.redis = Redis(**redis_args)
 
     def put(self, queue: str, message):
         if not queue:
@@ -12,7 +14,8 @@ class RedisQueue(object):
         if not message:
             raise ValueError("'message' argument cannot be None/empty")
 
-        self.redis.rpush(f"pyredq:{queue}", message)
+        msg_packed = packb(message)
+        self.redis.rpush(f"pyredq:{queue}", msg_packed)
 
     def subscribe(self, queue: str, callback, background: bool = False):
         if not queue:
@@ -32,4 +35,5 @@ class RedisQueue(object):
         while True:
             _, msg = self.redis.blpop(f"pyredq:{queue}")
             if msg:
-                callback(msg)
+                msg_unpacked = unpackb(msg)
+                callback(msg_unpacked)
