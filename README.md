@@ -37,7 +37,7 @@ queue.subscribe("queue1", handler, background=True)
 ```
 
 ### Redis configuration
-`pyredq.RedisQueue()` takes standard [Redis client parameters](https://redis-py.readthedocs.io/en/latest/#redis.Redis) as arguments, such as:
+`pyredq.RedisQueue()` takes standard [Redis client parameters](https://redis-py.readthedocs.io/en/stable/#redis.Redis) as arguments, such as:
 ```python
 queue = pyredq.RedisQueue(host="redis", port=6379, db=0, socket_timeout=0.2, retry_on_timeout=True)
 ```
